@@ -1,0 +1,188 @@
+"-----Miscellaneous settings {{{----
+set nocompatible	"Break compatibility with vi
+set hidden		"Buffers can exist in background
+
+" Automatically change working directory (only of current window) to currently open file in buffer
+" autocmd BufEnter * silent! lcd %:p:h
+
+set encoding=utf-8
+set fileencoding=utf-8
+"-----}}}----------------------------
+
+"-----Keyboard mappings {{{----------
+
+nnoremap j gj		"Move by screen lines, not by real lines
+nnoremap k gk
+
+" Also in visual mode
+vnoremap j gj
+vnoremap k gk
+
+nnoremap ; : 	"Press ; to issue commands in normal mode (no more shift holding)
+nnoremap \ ;	"Remap original leader key to semicolon (repeats t/T/f/F)
+
+"Toggle paste mode (to paste properly indented text)
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+
+let mapleader = ","	"map leader key to comma
+nmap <silent> <leader><space> :nohlsearch<CR> 	"Pressing \<space> clears the search highlights
+noremap <C-S> :update<CR> 	"Use CTRL-S for saving, also in Insert mode
+vnoremap <C-S> <C-C>:update<CR>
+inoremap <C-S> <C-O>:update<CR>
+
+" Map leader-> to expand column size and make all buffers equal size;
+" similarly map leader-> to reduce column size. Note use of \| to run multiple
+" commands in one line
+nmap <Leader>> :set columns=180<CR> \| <C-w>=
+nmap <Leader>< :set columns=120<CR> \| <C-w>= 
+" Map leader-tab to align text from cursor onwards to the right
+nnoremap <leader><tab> mc80A <esc>080lDgelD`cP
+" Map leader-n mapped to start NERDTree
+nmap <Leader>n :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1 "Show dotfiles
+set rtp+=~/.fzf
+nnoremap <leader>m :NERDTreeFind<cr>
+nnoremap <leader>p :call NERDTreeToggleInCurDir()<cr>
+" Disable Q key and stay away from Ex mode
+nnoremap Q <nop>
+" Disable Arrow keys in Escape mode
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
+map <C-J> <nop>
+" Disable Arrow keys in Insert mode
+imap <up> <nop>
+imap <down> <nop>
+imap <left> <nop>
+imap <right> <nop>
+
+"-----}}}----------------------------
+
+"-----Autocommands, foldings, etc {{{----
+" When opening help files, increase window size, open right
+autocmd FileType help set columns=180 | wincmd L 
+" When closing any buffer (assuming only 2 exist), resize window
+autocmd BufWinLeave * set columns=120 
+" Fold settings
+augroup vimrc
+  autocmd!
+  " Set the folding to be marker based unless already set as indent
+  au BufReadPre * setlocal foldmethod=indent
+  au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=marker | endif
+  " Next two lines are needed to save the folds when quitting a file/buffer
+  au BufWritePost,BufLeave,BufWinLeave *.* mkview!
+  au BufWinEnter *.* silent loadview
+augroup END
+" set foldmethod=marker                                      "fold based on indent
+" set foldnestmax=10                                    "deepest fold is 10 levels
+" set nofoldenable                                           "dont fold by default
+" set foldlevel=1                                         "this is just what i use
+" set foldcolumn=2                                         "column on left showing
+"-----}}} --------------------
+
+"-----Look and feel parameters {{{---
+
+" Either set backups off, or put it all in a temporary directory
+" set noswapfile
+" set nobackup
+" set nowb
+
+" Unix vs. Windows specific settings
+
+if has("gui_win32") || has("gui_win64")
+    set guifont=Consolas:h12
+    winpos 250 20
+    set guioptions-=T "Remove toolbar
+    set columns=100
+    set lines=54
+    set directory=$TEMP
+    set backupdir=$TEMP
+    set undodir=$TEMP
+endif
+
+
+if has("unix")
+  set guifont=Monospace
+  " winpos 250 20
+  set guioptions-=T "Remove toolbar
+  " Set the cursor to change from blinking block to I mode
+  let &t_SI = "\e[06 q"
+  let &t_EI = "\e[02 q"
+  set directory=/tmp
+  set backupdir=/tmp
+  set undodir=/tmp
+endif
+
+colorscheme wombat
+" Set the cursor row and column highlight
+set showmode "Show which mode you're in
+set cursorline "Show thin horizontal line where cursor is
+set cursorcolumn "Show thin vertical line where cursor is
+set number "Line number the file
+set hlsearch "Highlight searches
+set incsearch "Do incremental search
+set smartcase "If caps, then watch case, but ...
+set ignorecase "If all lowercase then ignore case
+set showmatch "Show mathching brackets
+set ruler
+set wildmenu "In command mode hitting tab shows all completions
+set novisualbell "Disable the bell on error
+" set mouse=a "?? Make mouse available
+set showcmd "Show (partial) command in status line
+set backspace=2 "Make backspace work like other apps
+set shiftwidth=2
+set shiftround "Round > and < to multiples of shiftwidth
+set scrolloff=5 "Always show some text context at top and bottom
+" Set textwidth=78 "not needed since Vim default is 80 characters
+" Set wrap "Wrap lines visually, based on window width
+" Note that setting the list option below breaks linbreak wrap feature
+set linebreak "Line breaks at words
+set formatoptions=l "Enable soft word wrap
+"set list "Normally, don't show show non-text characters, but..
+set listchars=tab:._ "if manually enabled, then underline tabs 
+syntax on
+filetype on "Colored highlights and proper indenting based on filetype
+filetype indent on
+filetype plugin on
+filetype plugin indent on
+set autoindent
+set copyindent "Copy previous indent
+set smartindent
+"Set the status line options. Make it show more information.
+set laststatus=2
+" Statusline shows modified, read-only, help, etc, truncate from left
+set statusline=%<%F%m%r%h%w\ %=[%v,%l/%L]\ %p%%\ [%{&ff},\ %Y]
+"-----}}}----------------------------
+
+"-----Autocommands for filetypes {{{
+autocmd FileType matlab setlocal commentstring=%\ %s
+"-----}}}----------------------------
+
+"-----NERDTree stuff {{{-------------
+function! NERDTreeToggleInCurDir()
+  " If NERDTree is open in the current buffer
+  if (exists("t:NERDTreeBufName") && bufwinnr(t:NERDTreeBufName) != -1)
+    exe ":NERDTreeClose"
+  else
+    if (expand("%:t") != '')
+      exe ":NERDTreeFind"
+    else
+      exe ":NERDTreeToggle"
+    endif
+  endif
+endfunction
+
+"-----}}}----------------------------
+
+"-----Legacy stuff {{{---------------
+
+" Following supplanted by vim-tmux-navigator-master plugin:
+" " Simplify navigating within splits using Ctrl instead of default
+" nnoremap <C-J> <C-@> # first unmap C-j for new line
+" nnoremap <C-J> <C-W><C-J>
+" nnoremap <C-K> <C-W><C-K>
+" nnoremap <C-L> <C-W><C-L>
+" nnoremap <C-H> <C-W><C-H>
+"-----}}}----------------------------
