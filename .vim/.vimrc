@@ -88,7 +88,7 @@ set showmatch "Show mathching brackets
 " set ruler
 set wildmenu "In command mode hitting tab shows all completions
 
-" set mouse=a "?? Make mouse available
+set mouse=a "?? Make mouse available
 set showcmd "Show (partial) command in status line
 set backspace=2 "Make backspace work like other apps
 set shiftwidth=2
