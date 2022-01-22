@@ -60,6 +60,18 @@ inoremap <C-S> <C-O>:update<CR>
 " Disable Q key and stay away from Ex mode
 nnoremap Q <nop>
 
+" Next few lines enables tmux style Prefix-hjkl navigation in
+" vim buffers. Note the quirk about using "@" instead of Space to get this
+" to work in WSL2. May need something else in other systems
+"
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <c-@>h :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-@>j :TmuxNavigateDown<cr>
+nnoremap <silent> <c-@>k :TmuxNavigateUp<cr>
+nnoremap <silent> <c-@>l :TmuxNavigateRight<cr>
+nnoremap <silent> <c-@>\ :TmuxNavigatePrevious<cr>
+
 "-----}}}----------------------------
 
 "-----Autocommands, foldings, etc {{{----

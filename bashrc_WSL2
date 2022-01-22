@@ -124,9 +124,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# bind the Alt-l key to clear screen (since tmux-navigator overwrites this)
-# Note that \e refers to the Alt key (sometimes have to use \M- instead)
-bind '"\el": "clear\n"'
+# Sample keybind: e.g. to bind the Alt-l key to clear screen
+# (since tmux-navigator overwrites this) note that \e refers to 
+# the Alt key (sometimes have to use \M- instead):
+# bind '"\el": "clear\n"'
 
 # prevent weird Ctrl-S freezing of the terminal pane (Ctrl-Q unfreezes)
 stty -ixon
