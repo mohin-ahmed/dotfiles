@@ -140,3 +140,10 @@ export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
 
 # Start fantastic search tool fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Check if silver searcher ag is present, in which case set it as FZF default
+if type ag &> /dev/null; then
+  export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+  export FZF_CTRL_T_COMMAND='ag --hidden --ignore .git -g ""'
+fi
+

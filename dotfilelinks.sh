@@ -9,6 +9,10 @@ ln -snf $DIR/dotfiles/.tmux $DIR/.tmux
 ln -snf $DIR/dotfiles/nvim $DIR/.config/nvim 
 ln -snf $DIR/dotfiles/.vifm $DIR/.vifm
 
+#### Install FZF into home directory and update ####
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
 #### Legacy Stuff ####
 
 # ln -sf $DIR/mc-solarized.ini ~/mc-solarized.ini
