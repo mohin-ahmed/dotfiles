@@ -7,6 +7,11 @@ set noswapfile
 set nobackup
 set nowritebackup	"disable backup file when writing in case of crash
 
+setlocal spell	"Enable inline spellcheck
+set spelllang=en_us
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
+"Enable quick corrections
+
 if exists('$TMUX')
   let &t_SI = "\ePtmux;\e\e[5 q\e\\"
   let &t_EI = "\ePtmux;\e\e[2 q\e\\"
@@ -18,7 +23,7 @@ endif
 " and move-right commands to immediately redraw the cursor
 inoremap <special> <Esc> <Esc>hl
 
-" don't blink the cursor
+" don't blink the cursor in any mode
 set guicursor+=i:blinkwait0
 
 " turn of bell sound or visual bell
