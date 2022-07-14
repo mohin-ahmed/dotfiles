@@ -17,7 +17,8 @@ HISTCONTROL=ignoreboth
 # Adding ability to share history among various tmux panes
 # After each command, save and reload history
 # -a to write, -c to clear memory and -r to read from .bash_history
-PROMPT_COMMAND="history -a; history -c; history -r"
+# -n to append new lines. Only -a and -n may be sufficient
+export PROMPT_COMMAND="history -a; history -n"
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
