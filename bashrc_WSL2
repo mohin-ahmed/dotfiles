@@ -133,18 +133,20 @@ fi
 # prevent weird Ctrl-S freezing of the terminal pane (Ctrl-Q unfreezes)
 stty -ixon
 
-# Set DISPLAY environment to use Window host's IP address to use graphical apps
-# Note the script extracts the IP address of the window's host
-LC_ALL=C
-export LC_ALL
-export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
-
 # Start fantastic search tool fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# Set fzf default preview window mode
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --preview '(highlight -O ansi {} || cat {}) 2> /dev/null | head -500'"
 
 # Check if silver searcher ag is present, in which case set it as FZF default
 if type ag &> /dev/null; then
   export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
   export FZF_CTRL_T_COMMAND='ag --hidden --ignore .git -g ""'
 fi
+
+# Set DISPLAY environment to use Window host's IP address to use graphical apps
+# Note the script extracts the IP address of the window's host
+LC_ALL=C
+export LC_ALL
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
 
