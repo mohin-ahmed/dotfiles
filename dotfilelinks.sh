@@ -8,6 +8,7 @@ ln -snf $DIR/dotfiles/.tmux.conf $DIR/.tmux.conf
 ln -snf $DIR/dotfiles/.tmux $DIR/.tmux
 ln -snf $DIR/dotfiles/nvim $DIR/.config/nvim 
 ln -snf $DIR/dotfiles/.vifm $DIR/.vifm
+mv ~/.bashrc ~/.bashrc.bak
 
 #### Install FZF into home directory and update ####
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
