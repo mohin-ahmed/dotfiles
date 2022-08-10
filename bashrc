@@ -147,3 +147,6 @@ if type ag &> /dev/null; then
   export FZF_CTRL_T_COMMAND='ag --hidden --ignore .git -g ""'
 fi
 
+# Change prompt to minimal style
+PS1='\[\033[01;32m\]\n\n\W\$ \[\033[00m\]'
+export PS1

@@ -139,14 +139,18 @@ stty -ixon
 export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --preview '(highlight -O ansi {} || cat {}) 2> /dev/null | head -500'"
 
 # Check if silver searcher ag is present, in which case set it as FZF default
-if type ag &> /dev/null; then
-  export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
-  export FZF_CTRL_T_COMMAND='ag --hidden --ignore .git -g ""'
-fi
+# if type ag &> /dev/null; then
+#   export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+#   export FZF_CTRL_T_COMMAND='ag --hidden --ignore .git -g ""'
+# fi
 
 # Set DISPLAY environment to use Window host's IP address to use graphical apps
 # Note the script extracts the IP address of the window's host
 LC_ALL=C
 export LC_ALL
 export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
+
+# Set prompt to minimal version
+PS1='\[\033[01;32m\]\n\n\W\$ \[\033[00m\]'
+export PS1
 
